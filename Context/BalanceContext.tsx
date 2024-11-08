@@ -1,6 +1,6 @@
 import { View, Text } from 'react-native'
 import React from 'react'
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState, ReactNode } from 'react';
 
 type Transaction = {
   id: number;
@@ -14,7 +14,13 @@ interface BalanceContextProps {
   addTransaction: (type: 'deposit' | 'withdraw' | 'transfer', amount: number) => void;
 }
 
+// Crear el contexto
 export const BalanceContext = createContext<BalanceContextProps | null>(null);
+
+// Definir el tipo de las props de BalanceProvider, incluyendo children
+interface BalanceProviderProps {
+  children: ReactNode;
+}
 
 export const BalanceProvider: React.FC = ({ children }) => {
   const [balance, setBalance] = useState(10000);
