@@ -13,14 +13,14 @@ const HomePage = () => {
 
   return (
     <View>
-      <Text>Bienvenido!</Text>
+      <Text>Bienvenido MarkzBank!</Text>
       <Text>Saldo Actual: L.{balance}</Text>
       <Button title="Depositar L.500" onPress={() => addTransaction('deposit', 500)} />
       <Text>Historial de Transacciones:</Text>
       <FlatList
         data={transactions}
         keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => <Text>{item.type} de L.{item.amount}</Text>}
+        renderItem={({ item }) => <Text>{item.type} de L.{item.monto}</Text>}
       />
     </View>
   );

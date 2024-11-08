@@ -1,34 +1,55 @@
-import { View, Text } from 'react-native'
-import React from 'react'
 import React, { createContext, useState, ReactNode } from 'react';
+import { View, Text } from 'react-native';
+
 
 type Transaction = {
-  id: number;
+  id: string; 
   type: 'deposit' | 'withdraw' | 'transfer';
-  amount: number;
+  monto: number;
+  detalle: string;
 };
+
 
 interface BalanceContextProps {
   balance: number;
   transactions: Transaction[];
-  addTransaction: (type: 'deposit' | 'withdraw' | 'transfer', amount: number) => void;
+  addTransaction: (type: 'deposit' | 'withdraw' | 'transfer', monto: number) => void;
 }
 
-// Crear el contexto
+
 export const BalanceContext = createContext<BalanceContextProps | null>(null);
 
-// Definir el tipo de las props de BalanceProvider, incluyendo children
-interface BalanceProviderProps {
-  children: ReactNode;
-}
 
-export const BalanceProvider: React.FC = ({ children }) => {
+export const BalanceProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [balance, setBalance] = useState(10000);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
 
-  const addTransaction = (type: 'deposit' | 'withdraw' | 'transfer', amount: number) => {
-    setBalance((prev) => (type === 'deposit' ? prev + amount : prev - amount));
-    setTransactions((prev) => [{ id: Date.now(), type, amount }, ...prev].slice(0, 5));
+ 
+  const addBalance = (monto: number) => {
+    setBalance(balance + monto);
+    addTransaction('deposit', monto);
+  };
+
+ 
+  const transferBalance = (monto: number) => {
+    if (monto <= balance) {
+      setBalance(balance - monto);
+      addTransaction('withdraw', monto); // Cambio a 'withdraw' en lugar de 'retiro'
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  const addTransaction = (type: 'deposit' | 'withdraw' | 'transfer', monto: number) => {
+    const detalle = `${type === 'deposit' ? 'Depósito' : type === 'withdraw' ? 'Retiro' : 'Transferencia'} de $${monto}`;
+    const newTransaction: Transaction = {
+      id: Date.now().toString(), 
+      type,
+      monto,
+      detalle,
+    };
+    setTransactions((prev) => [newTransaction, ...prev.slice(0, 4)]); // Limitar a las últimas 5 transacciones
   };
 
   return (

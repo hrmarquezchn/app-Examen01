@@ -18,7 +18,7 @@ const HistoryPage = () => {
         data={transactions}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
-          <Text>{item.type === 'deposit' ? 'Depósito' : 'Transferencia'} de L.{item.amount}</Text>
+          <Text>{item.type === 'deposit' ? 'Depósito' : 'Transferencia'} de L.{item.monto}</Text>
         )}
       />
     </View>

@@ -1,9 +1,9 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import HomePage from '../screens/HomePage';
-import TransferPage from '../screens/TransferPage';
-import HistoryPage from '../screens/HistoryPage';
+import HomePage from '../page/HomePage';
+import TransferPage from '../Page/TransferPage';
+import HistoryPage from '../Page/HistoryPage';
 
 const Tab = createBottomTabNavigator();
 
